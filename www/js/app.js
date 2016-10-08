@@ -22,3 +22,48 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+
+.controller('Ctrl',function($scope,$ionicModal,$ionicListDelegate) {
+
+
+           $ionicModal.fromTemplateUrl('PaymentPage.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.PaymentPage = modal;
+        });
+
+        $scope.Lot = null;
+
+          $scope.scan = function()
+            {
+                cordova.plugins.barcodeScanner.scan(
+                    function (result) {
+                        if(!result.cancelled)
+                        {
+                            if(result.format == "QR_CODE")
+                            {
+                                    var value = result.text;
+
+                                    $scope.Lot = value.split("---");
+
+
+                                    $scope.PaymentPage.show();
+
+                            }
+                        }
+                    },
+                    function (error) {
+                        alert("Scanning failed: " + error);
+                    }
+               );
+            }
+
+        
+        
+
+
+
+})
+
+
