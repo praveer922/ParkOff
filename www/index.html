@@ -19,6 +19,7 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -26,17 +27,32 @@
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
+<script type="text/javascript" src="cordova.js"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYmMMNbfP7KK-pSVH1qpdkm_Zx_bFFIYg&callback=initMap">
+                </script>
   </head>
-  <body ng-app="starter">
+  <body ng-app="starter" ng-controller="Ctrl">
+
+  
+ 
+
 
     <ion-view title="Home" hide-back-button="true" id="page1">
     <ion-content padding="true" class="has-header">
-        <a ui-sref="parkOff.qRScanner" id="home-button1" class="button button-balanced button-large button-block" ng-click="scan()">Scan</a>
+
+      <div class="button-bar bar-light">
+  <a class="button icon-left ion-qr-scanner" ng-click="showHome()">Scan</a>
+  <a class="button icon-left ion-search" ng-click="searchFunction()">Search</a>
+  <a class="button icon-left ion-android-car" ng-click="statusTab()">Status</a>
+</div>
+
+
+        <a id="home-button1" class="button button-balanced button-large button-block" ng-click="scan()">Scan</a>
         <form id="home-form5" class="list">
             <label class="item item-input" id="home-input3">
                 <span class="input-label">Enter Key:</span>
@@ -46,5 +62,10 @@
         <a ui-sref="parkOff.scanResult" id="home-button2" class="button button-positive  button-block">Submit</a>
     </ion-content>
 </ion-view>
+
+
+
   </body>
 </html>
+
+

@@ -3,17 +3,32 @@
         <ion-list id="scanResult-list4">
             <ion-item class="item-icon-left" id="scanResult-list-item19">
                 <i class="icon ion-ios-location"></i>Location
-                <span class="item-note">Lim Chu Kang Road</span>
+                <span class="item-note">{{Lot[0]}}</span>
             </ion-item>
             <ion-item class="item-icon-left item-icon-right" id="scanResult-list-item20">
                 <i class="icon ion-ios-location"></i>Lot Number
-                <span class="item-note">492</span>
+                <span class="item-note">{{Lot[1]}}</span>
                 <i class="icon ion-flag"></i>
             </ion-item>
-            <ion-item class="range range-balanced" id="scanResult-range3">Booking Duration
-                <input type="range" value="0" min="0" max="48" step="0.5">
-            </ion-item>
+            <form id="scanResult-form8" class="list">
+            <label class="item item-select" id="scanResult-select2">
+                <span class="input-label">Booking Duration</span>
+                <select ng-model="option.duration">
+                    <option value="0.5">0.5</option>
+                    <option value="1">1.0</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2.0</option>
+                    <option value="2.5">2.5</option>
+                    <option value="3">3.0</option>
+                    <option value="3.5">3.5</option>
+                    <option value="4">4.0</option>
+                    <option value="4.5">4.5</option>
+                    <option value="5">5.0</option>
+                </select>
+            </label>
+        </form>
+
         </ion-list>
-        <a ui-sref="parkOff.status" id="scanResult-button5" class="button button-assertive  button-block">Confirm Booking</a>
+        <a id="scanResult-button5" class="button button-assertive  button-block" ng-click="showStatus()">Confirm Booking</a>
     </ion-content>
 </ion-view>

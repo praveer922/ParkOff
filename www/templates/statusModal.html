@@ -1,0 +1,14 @@
+<ion-view title="Status" hide-back-button="true" id="statusModal.html">
+    <ion-content padding="true" class="has-header">
+
+     <div class="button-bar bar-light">
+  <a class="button icon-left ion-qr-scanner" ng-click="showHome()">Scan</a>
+  <a class="button icon-left ion-search" ng-click="searchFunction()">Search</a>
+  <a class="button icon-left ion-android-car" ng-click="statusTab()">Status</a>
+</div>
+        <h3 id="status-heading2" style="color:#000000;font-weight:300;">Time booked: {{from}} to {{to}}</h3>
+        <h3 id="status-heading4" style="color:#000000;font-weight:300;">Lot Number: {{Lot[1]}}</h3>
+        <a ng-click="extend()" id="status-button3" class="button button-positive  button-block">Extend Booking</a>
+        <a ng-click="showEndBooking()" id="status-button4" class="button button-positive  button-block">End Booking Now</a>
+    </ion-content>
+</ion-view>

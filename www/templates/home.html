@@ -1,6 +1,14 @@
 <ion-view title="Home" hide-back-button="true" id="page1">
     <ion-content padding="true" class="has-header">
-        <a ui-sref="parkOff.qRScanner" id="home-button1" class="button button-balanced button-large button-block">Scan</a>
+
+      <div class="button-bar bar-light">
+  <a class="button icon-left ion-qr-scanner" ng-click="showHome()">Scan</a>
+  <a class="button icon-left ion-search">Search</a>
+  <a class="button icon-left ion-android-car" ng-click="statusTab()">Status</a>
+</div>
+
+
+        <a id="home-button1" class="button button-balanced button-large button-block" ng-click="scan()">Scan</a>
         <form id="home-form5" class="list">
             <label class="item item-input" id="home-input3">
                 <span class="input-label">Enter Key:</span>

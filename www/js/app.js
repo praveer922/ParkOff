@@ -23,20 +23,119 @@ angular.module('starter', ['ionic'])
   });
 })
 
+
+
 .controller('Ctrl',function($scope,$ionicModal,$ionicListDelegate) {
 
+          $scope.allLots = [{ Num: 1,
+                              Parked: false}, 
+                            { Num: 2,
+                              Parked: false
+                            }]
 
-           $ionicModal.fromTemplateUrl('PaymentPage.html', {
+          $scope.map = null;
+
+
+           $ionicModal.fromTemplateUrl('templates/scanResult.html', {
           scope: $scope,
           animation: 'slide-in-left'
         }).then(function(modal){ 
-          $scope.PaymentPage = modal;
+          $scope.scanResult = modal;
         });
 
+         $ionicModal.fromTemplateUrl('templates/statusModal.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.statusModal = modal;
+        });
+
+        $ionicModal.fromTemplateUrl('templates/extendBooking.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.extendBooking = modal;
+        });
+
+        $ionicModal.fromTemplateUrl('templates/endBooking.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.endBooking = modal;
+        });
+
+        //Success Modal
+        $ionicModal.fromTemplateUrl('templates/success.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.successModal = modal;
+        });
+
+        //Home Model
+
+        $ionicModal.fromTemplateUrl('templates/home.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.indexModal = modal;
+        });
+
+        $scope.showHome = function() {
+          $scope.statusModal.hide();
+          $scope.emptyStatusModal.hide();
+          $scope.scanResult.hide();
+        
+        }
+
+          //EmptyStatus Model
+
+        $ionicModal.fromTemplateUrl('templates/emptyStatus.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.emptyStatusModal = modal;
+        });
+
+
+         //Search Model
+
+        $ionicModal.fromTemplateUrl('templates/search.html', {
+          scope: $scope,
+          animation: 'slide-in-left'
+        }).then(function(modal){ 
+          $scope.searchModal = modal;
+        });
+
+        //search function
+        $scope.count = 0;
+        $scope.searchFunction = function() {
+          $scope.emptyStatusModal.hide();
+          $scope.statusModal.hide();
+          for (var i = $scope.allLots.length - 1; i >= 0; i--) {
+            if(!$scope.allLots[i].Parked) {
+              $scope.count++;
+            }
+          };
+          /*$scope.map = new google.maps.Map(document.getElementById("map"),{
+                        center: {lat: 1.344215, lng: 103.6791292},
+                        zoom: 14
+                    });
+*/
+          $scope.searchModal.show();
+        }
+       
         $scope.Lot = null;
+        $scope.option = {
+          duration: null
+        };
+        $scope.past = null;
+        $scope.future = null;
 
           $scope.scan = function()
             {
+              //$scope.scanResult.show();
+              
                 cordova.plugins.barcodeScanner.scan(
                     function (result) {
                         if(!result.cancelled)
@@ -48,7 +147,7 @@ angular.module('starter', ['ionic'])
                                     $scope.Lot = value.split("---");
 
 
-                                    $scope.PaymentPage.show();
+                                    $scope.scanResult.show();
 
                             }
                         }
@@ -57,13 +156,73 @@ angular.module('starter', ['ionic'])
                         alert("Scanning failed: " + error);
                     }
                );
+                
             }
 
-        
-        
+
+            $scope.from = null;
+            $scope.to = null;
+            $scope.showStatus = function() {
+              if($scope.Lot[1] == 1) {
+                $scope.allLots[0].Parked = true;
+              } else {
+                $scope.allLots[1].Parked = true;
+              }
+              $scope.from = new Date().getHours() + ":" + new Date().getMinutes();
+              $scope.past = new Date();
+              $scope.future = new Date();
+              $scope.future.setTime($scope.future.getTime() + (parseFloat($scope.option.duration)*60*60*1000));
+              $scope.to = $scope.future.getHours() + ":" + $scope.future.getMinutes();
+           
+              $scope.statusModal.show();
+            }
+
+            $scope.statusTab = function() {
+              if($scope.Lot == null) {
+                $scope.emptyStatusModal.show();
+              } else {
+               $scope.statusModal.show();
+               }
+            }
+
+            $scope.extend = function() {
+              $scope.extendBooking.show();
+            }
+
+            $scope.extendFinish = function() {
+              $scope.future.setTime($scope.future.getTime() + (parseFloat($scope.option.duration)*60*60*1000));
+              $scope.to = $scope.future.getHours() + ":" + $scope.future.getMinutes();
+              $scope.extendBooking.hide(); 
+            }
+
+            $scope.price = null;
+            $scope.showEndBooking = function() {
+              $scope.price = parseFloat(Math.ceil((($scope.future.getTime() - $scope.past.getTime())*2)/(1000*60*60)))/2;
+              $scope.endBooking.show();
+            }
 
 
+            $scope.showSuccess = function() {
+              $scope.successModal.show();
+            }
+
+            $scope.done = function() {
+              $scope.successModal.hide();
+              $scope.endBooking.hide();
+                $scope.statusModal.hide();
+                $scope.scanResult.hide();
+                $scope.allLots[0].Parked = false;
+                $scope.allLots[1].Parked = false;
+                $scope.price = null;
+                $scope.future = null;
+                 $scope.past = null;
+                  $scope.from = null;
+                   $scope.to = null;
+                    $scope.option.duration = null;
+                     $scope.Lot = null;
+
+
+            }
 
 })
-
 
