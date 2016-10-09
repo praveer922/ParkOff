@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic','starter.directives'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -25,7 +25,25 @@ angular.module('starter', ['ionic'])
 
 
 
-.controller('Ctrl',function($scope,$ionicModal,$ionicListDelegate) {
+.controller('Ctrl',function($scope,$ionicModal,$ionicListDelegate,$ionicPlatform,$ionicLoading) {
+
+
+      $ionicPlatform.ready(function() {
+
+        var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
+
+        var mapOptions = {
+            center: myLatlng,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        $scope.map = map;
+    });
+
+
 
           $scope.allLots = [{ Num: 1,
                               Parked: false}, 
@@ -33,7 +51,7 @@ angular.module('starter', ['ionic'])
                               Parked: false
                             }]
 
-          $scope.map = null;
+          
 
 
            $ionicModal.fromTemplateUrl('templates/scanResult.html', {
@@ -85,6 +103,7 @@ angular.module('starter', ['ionic'])
           $scope.statusModal.hide();
           $scope.emptyStatusModal.hide();
           $scope.scanResult.hide();
+          $scope.searchModal.hide();
         
         }
 
@@ -112,6 +131,7 @@ angular.module('starter', ['ionic'])
         $scope.searchFunction = function() {
           $scope.emptyStatusModal.hide();
           $scope.statusModal.hide();
+          $scope.count=0;
           for (var i = $scope.allLots.length - 1; i >= 0; i--) {
             if(!$scope.allLots[i].Parked) {
               $scope.count++;
